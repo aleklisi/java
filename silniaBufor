@@ -1,0 +1,71 @@
+import java.math.*;
+import java.util.*;
+class ElementBuforaDowolny{
+	int ttl; //czas życia w buforze
+	public ElementBuforaDowolny(){
+	}
+}
+class ElementBuforaSilnia extends ElementBuforaDowolny{
+	static String nazwaFunkcyji = "Silnia";
+	int argument1;
+	BigInteger wynikDzialania;
+	ElementBuforaSilnia(int argument, BigInteger wynik){
+		argument1 = argument;
+		wynikDzialania = wynik;
+	}
+}
+class Bufor{
+	static ElementBuforaDowolny[] zawartoscBufora;
+	static int rozmiarBufora = 3;
+	static int obecneWypelnienie;
+	static int obecnyElement;
+	Bufor(){
+		ElementBuforaDowolny [] zawartoscBufora = new ElementBuforaDowolny[rozmiarBufora];
+		obecneWypelnienie = 0;
+		obecnyElement = 0;
+	}
+	void dodajElement(ElementBuforaDowolny operacja){
+		zawartoscBufora[obecnyElement] = operacja;
+		
+	}
+}
+class Funkcyje{
+	static BigInteger liczSilnie (int arg){
+		if (arg < 0){
+			throw new RuntimeException(" nie mize");
+		}
+		BigInteger wynik = new BigInteger("1");
+		for (int i = 2; i <= arg; i++){
+			
+			wynik = wynik.multiply(new BigInteger("" + i));
+		}
+	return wynik;
+	}
+}
+class Posrednia{
+	static BigInteger obliczSilnie(int arg,Bufor mojBuforek){
+		BigInteger wynikLiczeniaSilni = Funkcyje.liczSilnie(arg);
+		ElementBuforaDowolny elementDoBufora = new ElementBuforaSilnia(arg,wynikLiczeniaSilni);
+		mojBuforek.dodajElement(elementDoBufora);
+		return wynikLiczeniaSilni;
+	}
+}
+public class SilniaAlek {
+	public static void main(String []args){
+		Bufor mojBufor = new Bufor();
+		/*if (args.length <= 0){
+			System.out.println("wywolaj program z wlasciwa liczba argumentow");
+		}
+		else{*/
+		String pierwszyArg = "7";
+			try{
+			Integer atgumentSilni = new Integer(pierwszyArg);
+			System.out.println(Posrednia.obliczSilnie(atgumentSilni,mojBufor));
+			}
+			catch(NumberFormatException e){
+				System.out.println("nie podales liczby");
+			}
+		//}
+		
+	}
+}
