@@ -1,36 +1,29 @@
 import java.math.*;
 import java.util.*;
-class ElementBuforaDowolny{
-	int ttl; //czas życia w buforze
-	public ElementBuforaDowolny(){
-	}
+
+class WynikiSilni {
+	int [] argument;
+	BigInteger [] wynik;
+	int najstarszyElement;
+	int rozmiarBufora = 10;
+	WynikiSilni(){
+			int [] argument = new int[rozmiarBufora];
+			BigInteger [] wynik = new BigInteger[rozmiarBufora];
+		}
+		void dodajWynikSilni(int arg, BigInteger wyn){
+			argument[najstarszyElement] = arg;
+			wynik[najstarszyElement] = wyn;
+			najstarszyElement = ((najstarszyElement + 1) % rozmiarBufora);
+		}
 }
-class ElementBuforaSilnia extends ElementBuforaDowolny{
-	static String nazwaFunkcyji = "Silnia";
-	int argument1;
-	BigInteger wynikDzialania;
-	ElementBuforaSilnia(int argument, BigInteger wynik){
-		argument1 = argument;
-		wynikDzialania = wynik;
-	}
-}
-class Bufor{
-	static ElementBuforaDowolny[] zawartoscBufora;
-	static int rozmiarBufora = 3;
-	static int obecneWypelnienie;
-	static int obecnyElement;
-	Bufor(){
-		ElementBuforaDowolny [] zawartoscBufora = new ElementBuforaDowolny[rozmiarBufora];
-		obecneWypelnienie = 0;
-		obecnyElement = 0;
-	}
-	void dodajElement(ElementBuforaDowolny operacja){
-		zawartoscBufora[obecnyElement] = operacja;
-		
-	}
-}
+
+
 class Funkcyje{
-	static BigInteger liczSilnie (int arg){
+	WynikiSilni bufor;
+	Funkcyje(){
+		WynikiSilni bufor = new WynikiSilni();
+	}
+	 BigInteger liczSilnie (int arg){
 		if (arg < 0){
 			throw new RuntimeException(" nie mize");
 		}
@@ -39,20 +32,14 @@ class Funkcyje{
 			
 			wynik = wynik.multiply(new BigInteger("" + i));
 		}
+		bufor.dodajWynikSilni(arg,wynik);
 	return wynik;
 	}
 }
-class Posrednia{
-	static BigInteger obliczSilnie(int arg,Bufor mojBuforek){
-		BigInteger wynikLiczeniaSilni = Funkcyje.liczSilnie(arg);
-		ElementBuforaDowolny elementDoBufora = new ElementBuforaSilnia(arg,wynikLiczeniaSilni);
-		mojBuforek.dodajElement(elementDoBufora);
-		return wynikLiczeniaSilni;
-	}
-}
+
 public class SilniaAlek {
 	public static void main(String []args){
-		Bufor mojBufor = new Bufor();
+		Funkcyje f = new Funkcyje();
 		/*if (args.length <= 0){
 			System.out.println("wywolaj program z wlasciwa liczba argumentow");
 		}
@@ -60,7 +47,7 @@ public class SilniaAlek {
 		String pierwszyArg = "7";
 			try{
 			Integer atgumentSilni = new Integer(pierwszyArg);
-			System.out.println(Posrednia.obliczSilnie(atgumentSilni,mojBufor));
+			System.out.println(f.liczSilnie(atgumentSilni));
 			}
 			catch(NumberFormatException e){
 				System.out.println("nie podales liczby");
@@ -69,3 +56,4 @@ public class SilniaAlek {
 		
 	}
 }
+
