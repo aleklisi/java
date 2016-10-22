@@ -1,13 +1,17 @@
 import java.math.*;
 import java.util.*;
-
-class  WynikiSilni{
+interface implementacja{
+	//void usunNmniejszyElement();
+	void dodajWynikSilni(int arg, BigInteger wyn);
+	BigInteger liczSilnie (int arg);
+}
+class  WynikiSilni implements implementacja{
 	int rozmiarBufora = 3;
 	TreeMap<Integer, BigInteger> buforek = new TreeMap<Integer, BigInteger>();
-	void usunNmniejszyElement(){ 
+	 void usunNmniejszyElement(){ 
 		buforek.remove(buforek.firstKey());
 	}
-	void dodajWynikSilni(int arg, BigInteger wyn){
+	public void dodajWynikSilni(int arg, BigInteger wyn){
 		if (!buforek.containsKey(arg)){
 			if (buforek.size() > rozmiarBufora){
 				usunNmniejszyElement();
@@ -15,7 +19,7 @@ class  WynikiSilni{
 			buforek.put(arg,wyn);
 		}
 	}	
-	BigInteger liczSilnie (int arg){
+	public BigInteger liczSilnie (int arg){
 		if (arg < 0){
 			throw new RuntimeException(" nie mize");
 		}
